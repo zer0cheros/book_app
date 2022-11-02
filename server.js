@@ -2,9 +2,13 @@ const express = require('express')
 const server = express()
 const {db } = require('./db')
 const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+const {auth} = require('./auth')
 server.use(express.static('public'))
 server.use(express.urlencoded())
-
+server.use(cookieParser())
+server.use('/home', auth)
 const salt = 10
 
 const db1 = [
@@ -49,9 +53,12 @@ server.post('/login', async(req, res)=>{
     const user = await db('user').select().where({email: req.body.email})
     const comparedPassword = bcrypt.compareSync(req.body.password, user[0].password)
     if(comparedPassword){
-        res.render('dashboard', {
+        const token = await jwt.sign(user[0], 'christian',  {expiresIn: 60 * 60 * 1000, httpOnly: true})
+        res.cookie('auth', token)
+        res.redirect('/home')
+        /*res.render('dashboard', {
             user: user[0].name
-        })
+        })*/
     }else {
         res.redirect('/login')
     }

@@ -45,7 +45,7 @@ server.post('/signup', async(req, res)=>{
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
-    })
+    }) 
     res.redirect('/login')
 })
 
@@ -53,8 +53,8 @@ server.post('/login', async(req, res)=>{
     const user = await db('user').select().where({email: req.body.email})
     const comparedPassword = bcrypt.compareSync(req.body.password, user[0].password)
     if(comparedPassword){
-        const token = await jwt.sign(user[0], 'christian',  {expiresIn: 60 * 60 * 1000, httpOnly: true})
-        res.cookie('auth', token)
+        const token = await jwt.sign(user[0], 'christian',  {expiresIn: 60 * 60 * 1000,})
+        res.cookie('auth', token, {httpOnly: true, sameSite: 'strict', secure: true})
         res.redirect('/home')
         /*res.render('dashboard', {
             user: user[0].name

@@ -15,7 +15,7 @@ const salt = 10
 
 const uploads = multer.diskStorage({
     destination: (req, file, cb)=>{
-        cb(null, './uploads')
+        cb(null, './public/uploads')
     },
     filename: (req, file, cb) =>{
         cb(null, `${file.originalname}`)
@@ -65,7 +65,8 @@ server.post('/signup', async(req, res)=>{
 
 server.post('/home/addbook', upload.single('img'), async(req, res, next)=>{
     console.log(req.file);
-    res.send(`<img src="${req.file.path}"/><br>`)
+    let fileUrl = req.file.path.replace(/\\/g, "/").substring("public".length);
+    res.send(`<img src="${fileUrl}"/><br>`)
 })
 
 server.post('/login', async(req, res)=>{

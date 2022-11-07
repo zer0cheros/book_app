@@ -6,7 +6,6 @@ async function auth(req, res, next){
         try {
             let decodedToken = jwt.verify(token, 'christian')
             req["users"] = decodedToken
-            console.log(req.users);
             next()
         } catch (error) {
         console.log(error);

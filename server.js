@@ -11,19 +11,14 @@ server.use(cookieParser())
 server.use('/home', auth)
 const salt = 10
 
-const db1 = [
-    {car: 'BMW', year: 1990},
-    {car: 'TOYOTA', year: 2016},
-    {car: 'Lexus', year: 2021},
-    {car: 'Opel', year: 2000}
-]
 
 server.set('view engine', 'ejs')
 
-server.get('/', (req, res)=>{
+server.get('/', async(req, res)=>{
+    const books =  await db('books').select()
     res.render('index', {
         user: 'Christian',
-        db: db1
+        db: books
     })
 })
 

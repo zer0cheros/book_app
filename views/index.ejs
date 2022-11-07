@@ -10,10 +10,10 @@
 <body>
     <h1 class="text">Welcome <%= user %> </h1>
     <% db.forEach(element => { %>
-     <div style="border: 2px solid black; text-align: center;">
-        <h2><%= element.car %> </h2>
-        <h2><%= element.year %> </h2>
-     </div>
+     <a href="/home/book/<%= element.id %>" style="text-decoration: none; color: black;"><div style="border: 2px solid black; text-align: center;">
+        <h2>Name: <%= element.name %> </h2>
+        <h2>Author : <%= element.author %> </h2>
+     </div></a>
     <% }) %>
 </body>
 </html>

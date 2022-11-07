@@ -8,9 +8,10 @@
 </head>
 <body>
     <h1>Dashboard</h1>
-    <form action="/addBook" method="post">
+    <form action="/home/addbook" method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Name">
         <input type="text" name="author" placeholder="Author">
+        <input type="file" name="img" required>
         <button>Add Book</button>
     </form>
 </body>

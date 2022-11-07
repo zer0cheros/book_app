@@ -33,6 +33,13 @@ server.get('/home', (req, res)=>{
     res.render('dashboard')
 })
 
+server.get('/home/book/:id', async(req, res)=>{
+    // hämta från tabell books, använd WHERE som villkor. Hämta allt med samma id som adressfältet
+
+    console.log(req.params.id);
+    res.render('book', /* skicka arrayn från databasen till frontend*/)
+})
+
 server.post('/signup', async(req, res)=>{
     console.log(req.body);
     const hashedPassword = bcrypt.hashSync(req.body.password,salt)
@@ -58,6 +65,16 @@ server.post('/login', async(req, res)=>{
         res.redirect('/login')
     }
 })
+
+server.post('/home/addBook', async(req, res)=>{
+    await db('books').insert({
+        name: req.body.name,
+        author: req.body.author,
+        userId: req.users.id
+    })
+    res.redirect('/')
+})
+
 
 server.listen(3000, ()=>{
     console.log('Connected');
